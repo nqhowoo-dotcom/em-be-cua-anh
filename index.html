@@ -3,121 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vũ Trụ Của Thanh Nguyên</title>
+<title>Thanh Nguyên ❤️</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
 body{
-    overflow:hidden;
-    font-family:'Segoe UI',sans-serif;
-    background:radial-gradient(circle at center,#101030 0%,#000 70%);
+overflow:hidden;
+font-family:'Segoe UI',sans-serif;
+background:radial-gradient(circle at center,#0d0d2b 0%,#000 80%);
+color:white;
 }
 
-/* MÀN HÌNH MỞ */
-#startScreen{
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:black;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    z-index:10;
+/* FADE EFFECT */
+.fade{
+transition:opacity 1s ease;
 }
 
-#startBtn{
-    padding:15px 35px;
-    font-size:20px;
-    border:none;
-    border-radius:40px;
-    background:#ff2d95;
-    color:white;
-    cursor:pointer;
-    box-shadow:0 0 20px #ff2d95;
-    animation:pulse 1.5s infinite;
+/* LOCK SCREEN */
+#lock{
+position:absolute;
+width:100%;height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:10;
 }
 
-@keyframes pulse{
-    0%{box-shadow:0 0 10px #ff2d95}
-    50%{box-shadow:0 0 30px #ff2d95}
-    100%{box-shadow:0 0 10px #ff2d95}
+input{
+padding:12px;
+border-radius:25px;
+border:none;
+margin-top:15px;
+text-align:center;
+width:200px;
 }
 
-/* SAO */
+button{
+padding:12px 25px;
+border:none;
+border-radius:25px;
+background:#ff2d95;
+color:white;
+cursor:pointer;
+margin-top:15px;
+box-shadow:0 0 20px #ff2d95;
+}
+
+/* STARS */
 .star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    background:white;
-    border-radius:50%;
-    animation:twinkle 2s infinite alternate;
+position:absolute;
+width:2px;height:2px;
+background:white;
+border-radius:50%;
+opacity:.6;
+animation:twinkle 3s infinite alternate;
 }
 @keyframes twinkle{
-    from{opacity:.3}
-    to{opacity:1}
+from{opacity:.3}
+to{opacity:1}
 }
 
-/* CHỮ BAY */
-.loveText{
-    position:absolute;
-    color:#ff4da6;
-    font-size:18px;
-    text-shadow:0 0 10px #ff4da6,0 0 25px #ff1a8c;
-    animation:float linear infinite;
-    white-space:nowrap;
+/* SHOOTING STAR */
+.shooting{
+position:absolute;
+width:3px;height:3px;
+background:white;
+box-shadow:0 0 10px white;
+animation:shoot 1s linear forwards;
+}
+@keyframes shoot{
+to{transform:translate(400px,400px);opacity:0}
+}
+
+/* FLOAT HEART */
+.heart{
+position:absolute;
+font-size:20px;
+animation:float 8s linear infinite;
 }
 @keyframes float{
-    0%{transform:translateY(100vh);opacity:0}
-    10%{opacity:1}
-    90%{opacity:1}
-    100%{transform:translateY(-10vh);opacity:0}
+0%{transform:translateY(100vh);opacity:0}
+10%{opacity:1}
+90%{opacity:1}
+100%{transform:translateY(-10vh);opacity:0}
 }
 
-/* TIM */
-.heart{
-    position:absolute;
-    font-size:20px;
-    animation:float linear infinite;
+/* MAIN NAME */
+#name{
+position:absolute;
+top:50%;left:50%;
+transform:translate(-50%,-50%) scale(.7);
+font-size:55px;
+text-align:center;
+opacity:0;
+text-shadow:0 0 15px #ff4da6,0 0 35px #ff1a8c;
+animation:glow 2s infinite alternate;
+transition:2s ease;
+}
+@keyframes glow{
+from{text-shadow:0 0 10px #ff4da6}
+to{text-shadow:0 0 40px #ff1a8c}
 }
 
-/* TÊN CHÍNH */
-#mainName{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(.5);
-    font-size:55px;
-    color:white;
-    text-align:center;
-    text-shadow:0 0 20px #ff4da6,0 0 40px #ff1a8c;
-    opacity:0;
-    transition:2s ease;
+/* RIPPLE */
+.ripple{
+position:absolute;
+border:2px solid #ff4da6;
+border-radius:50%;
+animation:ripple 1s ease-out forwards;
+}
+@keyframes ripple{
+to{
+transform:scale(5);
+opacity:0;
+}
 }
 
-/* PHÁO TIM */
-.explosion{
-    position:absolute;
-    font-size:25px;
-    animation:explode 1s forwards;
+/* PAGE 2 */
+#page2{
+position:absolute;
+width:100%;height:100%;
+background:black;
+display:none;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:20px;
+text-align:center;
 }
-@keyframes explode{
-    to{
-        transform:translate(var(--x),var(--y));
-        opacity:0;
-    }
+
+.gallery{
+display:flex;
+overflow-x:auto;
+gap:15px;
+scroll-snap-type:x mandatory;
+width:100%;
+max-width:350px;
 }
+
+.gallery img{
+width:250px;
+border-radius:20px;
+scroll-snap-align:center;
+box-shadow:0 0 20px #ff2d95;
+}
+
 </style>
 </head>
 <body>
 
-<div id="startScreen">
-    <button id="startBtn">Mở Vũ Trụ 💖</button>
+<div id="lock">
+<h2>Nhập mật khẩu 💖</h2>
+<input type="password" id="pass" placeholder="••••••">
+<button onclick="openUniverse()">Mở</button>
 </div>
 
-<div id="mainName">
-Thanh Nguyên ❤️<br>02/02/2008
+<div id="name">
+Thanh Nguyên ❤️<br>02/02/2008<br><br>
+<button onclick="openPage2()">Bất Ngờ 🎁</button>
+</div>
+
+<div id="page2">
+<h2>Anh yêu Nguyên nhiều lắm 💖</h2>
+<br>
+<div class="gallery">
+<img src="https://picsum.photos/300/400?1">
+<img src="https://picsum.photos/300/400?2">
+<img src="https://picsum.photos/300/400?3">
+</div>
+<br>
+<button onclick="back()">Quay lại</button>
 </div>
 
 <audio id="music" loop>
@@ -126,16 +183,32 @@ Thanh Nguyên ❤️<br>02/02/2008
 
 <script>
 
-const messages=[
-"Anh yêu Nguyên nhất trên đời 💖",
-"Thanh Nguyên là cả thế giới của anh 🌎",
-"I love you forever ❤️",
-"You make my heart smile 💕",
-"02/02/2008 – ngày đặc biệt ✨"
-];
+const PASSWORD="02022008";
 
+function openUniverse(){
+if(document.getElementById("pass").value!==PASSWORD){
+alert("Sai mật khẩu 😝");
+return;
+}
+
+document.getElementById("lock").style.opacity="0";
+setTimeout(()=>{document.getElementById("lock").style.display="none"},1000);
+
+document.getElementById("music").play();
+createStars();
+createHearts();
+shootingStars();
+
+setTimeout(()=>{
+let n=document.getElementById("name");
+n.style.opacity="1";
+n.style.transform="translate(-50%,-50%) scale(1)";
+},4000);
+}
+
+/* STARS */
 function createStars(){
-for(let i=0;i<180;i++){
+for(let i=0;i<120;i++){
 let s=document.createElement("div");
 s.className="star";
 s.style.top=Math.random()*window.innerHeight+"px";
@@ -144,58 +217,53 @@ document.body.appendChild(s);
 }
 }
 
-function createText(){
-let t=document.createElement("div");
-t.className="loveText";
-t.innerText=messages[Math.floor(Math.random()*messages.length)];
-t.style.left=Math.random()*window.innerWidth+"px";
-t.style.animationDuration=(6+Math.random()*4)+"s";
-document.body.appendChild(t);
-setTimeout(()=>t.remove(),10000);
-}
-setInterval(createText,800);
-
-function createHeart(){
+/* HEARTS */
+function createHearts(){
+setInterval(()=>{
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="❤️";
 h.style.left=Math.random()*window.innerWidth+"px";
-h.style.animationDuration=(5+Math.random()*5)+"s";
+h.style.animationDuration=(6+Math.random()*4)+"s";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),10000);
-}
-setInterval(createHeart,900);
-
-function explode(x,y){
-for(let i=0;i<25;i++){
-let e=document.createElement("div");
-e.className="explosion";
-e.innerHTML="💖";
-e.style.left=x+"px";
-e.style.top=y+"px";
-e.style.setProperty('--x',(Math.random()*250-125)+"px");
-e.style.setProperty('--y',(Math.random()*250-125)+"px");
-document.body.appendChild(e);
-setTimeout(()=>e.remove(),1000);
-}
+},1000);
 }
 
+/* SHOOTING STAR */
+function shootingStars(){
+setInterval(()=>{
+let s=document.createElement("div");
+s.className="shooting";
+s.style.top=Math.random()*window.innerHeight/2+"px";
+s.style.left=Math.random()*window.innerWidth/2+"px";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),1000);
+},4000);
+}
+
+/* CLICK EFFECT */
 document.addEventListener("click",(e)=>{
-explode(e.clientX,e.clientY);
+let r=document.createElement("div");
+r.className="ripple";
+r.style.left=e.clientX+"px";
+r.style.top=e.clientY+"px";
+r.style.width="20px";
+r.style.height="20px";
+document.body.appendChild(r);
+setTimeout(()=>r.remove(),1000);
 });
 
-document.getElementById("startBtn").onclick=function(){
-document.getElementById("startScreen").style.display="none";
-document.getElementById("music").play();
-createStars();
+/* PAGE 2 */
+function openPage2(){
+document.getElementById("page2").style.display="flex";
+document.getElementById("name").style.display="none";
+}
 
-setTimeout(()=>{
-let name=document.getElementById("mainName");
-name.style.opacity="1";
-name.style.transform="translate(-50%,-50%) scale(1)";
-explode(window.innerWidth/2,window.innerHeight/2);
-},5000);
-};
+function back(){
+document.getElementById("page2").style.display="none";
+document.getElementById("name").style.display="block";
+}
 
 </script>
 
