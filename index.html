@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vũ Trụ Của Thanh Nguyên</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+    background:radial-gradient(circle at center,#101030 0%,#000 70%);
+}
+
+/* MÀN HÌNH MỞ */
+#startScreen{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:10;
+}
+
+#startBtn{
+    padding:15px 35px;
+    font-size:20px;
+    border:none;
+    border-radius:40px;
+    background:#ff2d95;
+    color:white;
+    cursor:pointer;
+    box-shadow:0 0 20px #ff2d95;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{box-shadow:0 0 10px #ff2d95}
+    50%{box-shadow:0 0 30px #ff2d95}
+    100%{box-shadow:0 0 10px #ff2d95}
+}
+
+/* SAO */
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+    from{opacity:.3}
+    to{opacity:1}
+}
+
+/* CHỮ BAY */
+.loveText{
+    position:absolute;
+    color:#ff4da6;
+    font-size:18px;
+    text-shadow:0 0 10px #ff4da6,0 0 25px #ff1a8c;
+    animation:float linear infinite;
+    white-space:nowrap;
+}
+@keyframes float{
+    0%{transform:translateY(100vh);opacity:0}
+    10%{opacity:1}
+    90%{opacity:1}
+    100%{transform:translateY(-10vh);opacity:0}
+}
+
+/* TIM */
+.heart{
+    position:absolute;
+    font-size:20px;
+    animation:float linear infinite;
+}
+
+/* TÊN CHÍNH */
+#mainName{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(.5);
+    font-size:55px;
+    color:white;
+    text-align:center;
+    text-shadow:0 0 20px #ff4da6,0 0 40px #ff1a8c;
+    opacity:0;
+    transition:2s ease;
+}
+
+/* PHÁO TIM */
+.explosion{
+    position:absolute;
+    font-size:25px;
+    animation:explode 1s forwards;
+}
+@keyframes explode{
+    to{
+        transform:translate(var(--x),var(--y));
+        opacity:0;
+    }
+}
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+    <button id="startBtn">Mở Vũ Trụ 💖</button>
+</div>
+
+<div id="mainName">
+Thanh Nguyên ❤️<br>02/02/2008
+</div>
+
+<audio id="music" loop>
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
+</audio>
+
+<script>
+
+const messages=[
+"Anh yêu Nguyên nhất trên đời 💖",
+"Thanh Nguyên là cả thế giới của anh 🌎",
+"I love you forever ❤️",
+"You make my heart smile 💕",
+"02/02/2008 – ngày đặc biệt ✨"
+];
+
+function createStars(){
+for(let i=0;i<180;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.top=Math.random()*window.innerHeight+"px";
+s.style.left=Math.random()*window.innerWidth+"px";
+document.body.appendChild(s);
+}
+}
+
+function createText(){
+let t=document.createElement("div");
+t.className="loveText";
+t.innerText=messages[Math.floor(Math.random()*messages.length)];
+t.style.left=Math.random()*window.innerWidth+"px";
+t.style.animationDuration=(6+Math.random()*4)+"s";
+document.body.appendChild(t);
+setTimeout(()=>t.remove(),10000);
+}
+setInterval(createText,800);
+
+function createHeart(){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*window.innerWidth+"px";
+h.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),10000);
+}
+setInterval(createHeart,900);
+
+function explode(x,y){
+for(let i=0;i<25;i++){
+let e=document.createElement("div");
+e.className="explosion";
+e.innerHTML="💖";
+e.style.left=x+"px";
+e.style.top=y+"px";
+e.style.setProperty('--x',(Math.random()*250-125)+"px");
+e.style.setProperty('--y',(Math.random()*250-125)+"px");
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),1000);
+}
+}
+
+document.addEventListener("click",(e)=>{
+explode(e.clientX,e.clientY);
+});
+
+document.getElementById("startBtn").onclick=function(){
+document.getElementById("startScreen").style.display="none";
+document.getElementById("music").play();
+createStars();
+
+setTimeout(()=>{
+let name=document.getElementById("mainName");
+name.style.opacity="1";
+name.style.transform="translate(-50%,-50%) scale(1)";
+explode(window.innerWidth/2,window.innerHeight/2);
+},5000);
+};
+
+</script>
+
+</body>
+</html>
