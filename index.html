@@ -14,11 +14,6 @@ background:radial-gradient(circle at center,#0d0d2b 0%,#000 80%);
 color:white;
 }
 
-/* FADE EFFECT */
-.fade{
-transition:opacity 1s ease;
-}
-
 /* LOCK SCREEN */
 #lock{
 position:absolute;
@@ -29,6 +24,7 @@ justify-content:center;
 align-items:center;
 flex-direction:column;
 z-index:10;
+transition:1s;
 }
 
 input{
@@ -57,7 +53,6 @@ position:absolute;
 width:2px;height:2px;
 background:white;
 border-radius:50%;
-opacity:.6;
 animation:twinkle 3s infinite alternate;
 }
 @keyframes twinkle{
@@ -65,19 +60,7 @@ from{opacity:.3}
 to{opacity:1}
 }
 
-/* SHOOTING STAR */
-.shooting{
-position:absolute;
-width:3px;height:3px;
-background:white;
-box-shadow:0 0 10px white;
-animation:shoot 1s linear forwards;
-}
-@keyframes shoot{
-to{transform:translate(400px,400px);opacity:0}
-}
-
-/* FLOAT HEART */
+/* HEART FLOAT */
 .heart{
 position:absolute;
 font-size:20px;
@@ -90,6 +73,18 @@ animation:float 8s linear infinite;
 100%{transform:translateY(-10vh);opacity:0}
 }
 
+/* FLOWER PETAL */
+.petal{
+position:absolute;
+font-size:18px;
+animation:fall 10s linear infinite;
+opacity:.8;
+}
+@keyframes fall{
+0%{transform:translateY(-10vh) rotate(0deg)}
+100%{transform:translateY(110vh) rotate(360deg)}
+}
+
 /* MAIN NAME */
 #name{
 position:absolute;
@@ -99,12 +94,20 @@ font-size:55px;
 text-align:center;
 opacity:0;
 text-shadow:0 0 15px #ff4da6,0 0 35px #ff1a8c;
-animation:glow 2s infinite alternate;
 transition:2s ease;
 }
-@keyframes glow{
-from{text-shadow:0 0 10px #ff4da6}
-to{text-shadow:0 0 40px #ff1a8c}
+
+/* EXPLOSION */
+.explosion{
+position:absolute;
+font-size:25px;
+animation:explode 1s forwards;
+}
+@keyframes explode{
+to{
+transform:translate(var(--x),var(--y));
+opacity:0;
+}
 }
 
 /* RIPPLE */
@@ -120,36 +123,6 @@ transform:scale(5);
 opacity:0;
 }
 }
-
-/* PAGE 2 */
-#page2{
-position:absolute;
-width:100%;height:100%;
-background:black;
-display:none;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-padding:20px;
-text-align:center;
-}
-
-.gallery{
-display:flex;
-overflow-x:auto;
-gap:15px;
-scroll-snap-type:x mandatory;
-width:100%;
-max-width:350px;
-}
-
-.gallery img{
-width:250px;
-border-radius:20px;
-scroll-snap-align:center;
-box-shadow:0 0 20px #ff2d95;
-}
-
 </style>
 </head>
 <body>
@@ -157,24 +130,11 @@ box-shadow:0 0 20px #ff2d95;
 <div id="lock">
 <h2>Nhập mật khẩu 💖</h2>
 <input type="password" id="pass" placeholder="••••••">
-<button onclick="openUniverse()">Mở</button>
+<button onclick="openUniverse()">Mở Vũ Trụ</button>
 </div>
 
 <div id="name">
-Thanh Nguyên ❤️<br>02/02/2008<br><br>
-<button onclick="openPage2()">Bất Ngờ 🎁</button>
-</div>
-
-<div id="page2">
-<h2>Anh yêu Nguyên nhiều lắm 💖</h2>
-<br>
-<div class="gallery">
-<img src="https://picsum.photos/300/400?1">
-<img src="https://picsum.photos/300/400?2">
-<img src="https://picsum.photos/300/400?3">
-</div>
-<br>
-<button onclick="back()">Quay lại</button>
+Thanh Nguyên ❤️<br>02/02/2008
 </div>
 
 <audio id="music" loop>
@@ -183,7 +143,7 @@ Thanh Nguyên ❤️<br>02/02/2008<br><br>
 
 <script>
 
-const PASSWORD="02022008";
+const PASSWORD="1112023";
 
 function openUniverse(){
 if(document.getElementById("pass").value!==PASSWORD){
@@ -197,13 +157,14 @@ setTimeout(()=>{document.getElementById("lock").style.display="none"},1000);
 document.getElementById("music").play();
 createStars();
 createHearts();
-shootingStars();
+createPetals();
 
 setTimeout(()=>{
 let n=document.getElementById("name");
 n.style.opacity="1";
 n.style.transform="translate(-50%,-50%) scale(1)";
-},4000);
+explode(window.innerWidth/2,window.innerHeight/2);
+},5000);
 }
 
 /* STARS */
@@ -227,22 +188,38 @@ h.style.left=Math.random()*window.innerWidth+"px";
 h.style.animationDuration=(6+Math.random()*4)+"s";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),10000);
-},1000);
+},900);
 }
 
-/* SHOOTING STAR */
-function shootingStars(){
+/* PETALS */
+function createPetals(){
 setInterval(()=>{
-let s=document.createElement("div");
-s.className="shooting";
-s.style.top=Math.random()*window.innerHeight/2+"px";
-s.style.left=Math.random()*window.innerWidth/2+"px";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),1000);
-},4000);
+let p=document.createElement("div");
+p.className="petal";
+p.innerHTML="🌸";
+p.style.left=Math.random()*window.innerWidth+"px";
+p.style.animationDuration=(8+Math.random()*5)+"s";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),12000);
+},1500);
 }
 
-/* CLICK EFFECT */
+/* EXPLOSION */
+function explode(x,y){
+for(let i=0;i<30;i++){
+let e=document.createElement("div");
+e.className="explosion";
+e.innerHTML="💖";
+e.style.left=x+"px";
+e.style.top=y+"px";
+e.style.setProperty('--x',(Math.random()*300-150)+"px");
+e.style.setProperty('--y',(Math.random()*300-150)+"px");
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),1000);
+}
+}
+
+/* CLICK RIPPLE */
 document.addEventListener("click",(e)=>{
 let r=document.createElement("div");
 r.className="ripple";
@@ -253,17 +230,6 @@ r.style.height="20px";
 document.body.appendChild(r);
 setTimeout(()=>r.remove(),1000);
 });
-
-/* PAGE 2 */
-function openPage2(){
-document.getElementById("page2").style.display="flex";
-document.getElementById("name").style.display="none";
-}
-
-function back(){
-document.getElementById("page2").style.display="none";
-document.getElementById("name").style.display="block";
-}
 
 </script>
 
